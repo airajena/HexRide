@@ -1,0 +1,4 @@
+com\hexride\gateway\filter\RequestLoggingFilter.class
+com\hexride\gateway\config\RateLimiterConfig.class
+com\hexride\gateway\controller\FallbackController.class
+com\hexride\gateway\ApiGatewayApplication.class
