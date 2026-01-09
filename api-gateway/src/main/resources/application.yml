@@ -1,0 +1,139 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+            redis-rate-limiter.requestedTokens: 1
+            key-resolver: "#{@ipKeyResolver}"
+      
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/auth/**, /api/v1/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userServiceCB
+                fallbackUri: forward:/fallback/user
+        
+        - id: driver-service
+          uri: lb://driver-service
+          predicates:
+            - Path=/api/v1/drivers/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: driverServiceCB
+                fallbackUri: forward:/fallback/driver
+        
+        - id: ride-service
+          uri: lb://ride-service
+          predicates:
+            - Path=/api/v1/rides/**, /api/v1/fares/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: rideServiceCB
+                fallbackUri: forward:/fallback/ride
+        
+        - id: location-service
+          uri: lb://location-service
+          predicates:
+            - Path=/api/v1/locations/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: locationServiceCB
+                fallbackUri: forward:/fallback/location
+        
+        - id: websocket-service
+          uri: lb:ws://websocket-service
+          predicates:
+            - Path=/ws/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.uuid}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    instances:
+      userServiceCB:
+        baseConfig: default
+      driverServiceCB:
+        baseConfig: default
+      rideServiceCB:
+        baseConfig: default
+      locationServiceCB:
+        baseConfig: default
+  
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+    instances:
+      userServiceCB:
+        baseConfig: default
+      driverServiceCB:
+        baseConfig: default
+      rideServiceCB:
+        baseConfig: default
+      locationServiceCB:
+        baseConfig: default
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics,gateway
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    io.github.resilience4j: DEBUG
+    com.netflix.discovery: INFO
