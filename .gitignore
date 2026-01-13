@@ -1,0 +1,147 @@
+# =============================================
+# HexRide - Git Ignore Configuration
+# =============================================
+
+# ----- Compiled Files -----
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# ----- Maven Build -----
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ----- Gradle (if used) -----
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ----- IDE - IntelliJ IDEA -----
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.idea_modules/
+
+# ----- IDE - Eclipse -----
+.classpath
+.project
+.settings/
+bin/
+.metadata/
+
+# ----- IDE - VS Code -----
+.vscode/
+*.code-workspace
+
+# ----- IDE - NetBeans -----
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# ----- Logs -----
+*.log
+logs/
+*.log.*
+
+# ----- OS Files -----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ----- Environment & Secrets -----
+.env
+.env.local
+.env.*.local
+*.env
+application-local.yml
+application-local.properties
+secrets.yml
+secrets.properties
+
+# ----- Spring Boot -----
+HELP.md
+.spring-boot-devtools/
+
+# ----- Docker -----
+# Keep Dockerfiles, ignore Docker volumes/data
+docker-data/
+docker-volumes/
+
+# ----- Node (for frontend if any) -----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ----- Test Results -----
+test-output/
+surefire-reports/
+failsafe-reports/
+coverage/
+*.exec
+jacoco.exec
+
+# ----- Temporary Files -----
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+temp/
+
+# ----- Package Files -----
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ----- Generated Docs -----
+site/
+apidocs/
+javadoc/
+
+# ----- JRebel -----
+rebel.xml
+
+# ----- Kubernetes/Helm -----
+*.kubeconfig
+charts/*.tgz
+
+# ----- Terraform (if used) -----
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# ----- Coverage Reports -----
+htmlcov/
+.coverage
+.coverage.*
+
+# ----- Annotation Processors -----
+.apt_generated/
+.factorypath
+
+# ----- MapStruct Generated -----
+generated/

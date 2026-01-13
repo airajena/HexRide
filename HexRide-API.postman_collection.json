@@ -1,0 +1,1582 @@
+{
+    "info": {
+        "name": "HexRide - Real-Time Ride Hailing Platform",
+        "description": "Complete API collection for HexRide microservices platform",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080",
+            "type": "string"
+        },
+        {
+            "key": "accessToken",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "refreshToken",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "driverId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "rideId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "fareId",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('accessToken', jsonData.data.accessToken);",
+                                    "    pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);",
+                                    "    pm.collectionVariables.set('userId', jsonData.data.userId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Registration successful', function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"rider@hexride.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"John\",\n    \"lastName\": \"Rider\",\n    \"phoneNumber\": \"+1234567890\",\n    \"userType\": \"RIDER\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Register Driver",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('driverId', jsonData.data.userId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Driver registration successful', function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"driver@hexride.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Mike\",\n    \"lastName\": \"Driver\",\n    \"phoneNumber\": \"+1987654321\",\n    \"userType\": \"DRIVER\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('accessToken', jsonData.data.accessToken);",
+                                    "    pm.collectionVariables.set('refreshToken', jsonData.data.refreshToken);",
+                                    "}",
+                                    "",
+                                    "pm.test('Login successful', function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"phoneNumber\": \"+1234567890\",\n    \"password\": \"password123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Refresh Token",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('accessToken', jsonData.data.accessToken);",
+                                    "}",
+                                    "",
+                                    "pm.test('Token refresh successful', function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "X-Refresh-Token",
+                                "value": "{{refreshToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/refresh",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "refresh"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "Get Current User",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/me",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "me"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "{{userId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{accessToken}}"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Updated\",\n    \"email\": \"john.updated@hexride.com\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "users",
+                                "{{userId}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Driver",
+            "item": [
+                {
+                    "name": "Register as Driver",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('driverId', jsonData.data.id);",
+                                    "}",
+                                    "",
+                                    "pm.test('Driver profile created', function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{driverId}}\",\n    \"licenseNumber\": \"DL-2024-123456\",\n    \"licensePlate\": \"ABC-1234\",\n    \"make\": \"Toyota\",\n    \"model\": \"Camry\",\n    \"color\": \"White\",\n    \"year\": 2022,\n    \"supportedRideTypes\": [\"STANDARD\", \"COMFORT\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Driver",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/{{driverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "{{driverId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Go Online",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"isAvailable\": true,\n    \"currentLocation\": {\n        \"latitude\": 37.7749,\n        \"longitude\": -122.4194,\n        \"address\": \"San Francisco, CA\"\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/{{driverId}}/availability",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "{{driverId}}",
+                                "availability"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Go Offline",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"isAvailable\": false\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/{{driverId}}/availability",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "{{driverId}}",
+                                "availability"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Fare",
+            "item": [
+                {
+                    "name": "Estimate Fare",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('fareId', jsonData.data.fareId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Fare estimated', function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"pickupLocation\": {\n        \"latitude\": 37.7749,\n        \"longitude\": -122.4194,\n        \"address\": \"123 Market St, San Francisco, CA\"\n    },\n    \"dropoffLocation\": {\n        \"latitude\": 37.7849,\n        \"longitude\": -122.4094,\n        \"address\": \"456 Mission St, San Francisco, CA\"\n    },\n    \"rideType\": \"STANDARD\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/fares/estimate",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fares",
+                                "estimate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Fare by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/fares/{{fareId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fares",
+                                "{{fareId}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Ride",
+            "item": [
+                {
+                    "name": "Request Ride",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('rideId', jsonData.data.id);",
+                                    "}",
+                                    "",
+                                    "pm.test('Ride requested', function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"fareId\": \"{{fareId}}\",\n    \"riderId\": \"{{userId}}\",\n    \"rideType\": \"STANDARD\",\n    \"pickupLocation\": {\n        \"latitude\": 37.7749,\n        \"longitude\": -122.4194,\n        \"address\": \"123 Market St, San Francisco, CA\"\n    },\n    \"dropoffLocation\": {\n        \"latitude\": 37.7849,\n        \"longitude\": -122.4094,\n        \"address\": \"456 Mission St, San Francisco, CA\"\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Ride",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Accept Ride (Driver)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}/accept?driverId={{driverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}",
+                                "accept"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{driverId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Driver Arrived",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}/driver-arrived?driverId={{driverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}",
+                                "driver-arrived"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{driverId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Start Ride (with OTP)",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}/start?driverId={{driverId}}&otp=1234",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}",
+                                "start"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{driverId}}"
+                                },
+                                {
+                                    "key": "otp",
+                                    "value": "1234"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Complete Ride",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}/complete?driverId={{driverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}",
+                                "complete"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{driverId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Cancel Ride",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "X-User-Id",
+                                "value": "{{userId}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{rideId}}/cancel?reason=Changed my mind",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{rideId}}",
+                                "cancel"
+                            ],
+                            "query": [
+                                {
+                                    "key": "reason",
+                                    "value": "Changed my mind"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Rider History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/rider/{{userId}}/history?page=0&size=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "rider",
+                                "{{userId}}",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Driver History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/driver/{{driverId}}/history?page=0&size=10",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "driver",
+                                "{{driverId}}",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "0"
+                                },
+                                {
+                                    "key": "size",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Active Ride for Driver",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/driver/{{driverId}}/active",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "driver",
+                                "{{driverId}}",
+                                "active"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Location",
+            "item": [
+                {
+                    "name": "Update Driver Location",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"driverId\": \"{{driverId}}\",\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194,\n    \"heading\": 45.0,\n    \"speed\": 30.5\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/locations/update",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "locations",
+                                "update"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Driver Location",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/locations/drivers/{{driverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "locations",
+                                "drivers",
+                                "{{driverId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Find Nearby Drivers",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"latitude\": 37.7749,\n    \"longitude\": -122.4194,\n    \"radiusKm\": 5,\n    \"limit\": 10\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/locations/nearby",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "locations",
+                                "nearby"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Nearby Driver IDs",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/locations/nearby/ids?latitude=37.7749&longitude=-122.4194&radiusKm=5",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "locations",
+                                "nearby",
+                                "ids"
+                            ],
+                            "query": [
+                                {
+                                    "key": "latitude",
+                                    "value": "37.7749"
+                                },
+                                {
+                                    "key": "longitude",
+                                    "value": "-122.4194"
+                                },
+                                {
+                                    "key": "radiusKm",
+                                    "value": "5"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Health Checks",
+            "item": [
+                {
+                    "name": "API Gateway Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/actuator/health",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "User Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8081/actuator/health",
+                            "host": [
+                                "http://localhost:8081"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Ride Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8082/actuator/health",
+                            "host": [
+                                "http://localhost:8082"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Driver Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8083/actuator/health",
+                            "host": [
+                                "http://localhost:8083"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Location Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8084/actuator/health",
+                            "host": [
+                                "http://localhost:8084"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Matching Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8085/actuator/health",
+                            "host": [
+                                "http://localhost:8085"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "WebSocket Service Health",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8086/actuator/health",
+                            "host": [
+                                "http://localhost:8086"
+                            ],
+                            "path": [
+                                "actuator",
+                                "health"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Infrastructure",
+            "description": "Check infrastructure components",
+            "item": [
+                {
+                    "name": "Eureka - Registered Apps",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8761/eureka/apps",
+                            "host": [
+                                "http://localhost:8761"
+                            ],
+                            "path": [
+                                "eureka",
+                                "apps"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Eureka - Dashboard",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8761",
+                            "host": [
+                                "http://localhost:8761"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Complete Ride Flow (Sequential)",
+            "description": "Run these requests in sequence to test a complete ride",
+            "item": [
+                {
+                    "name": "1. Register Rider",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('riderAccessToken', jsonData.data.accessToken);",
+                                    "    pm.collectionVariables.set('riderId', jsonData.data.userId);",
+                                    "    console.log('Rider registered: ' + jsonData.data.userId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Rider registration successful', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"testrider{{$timestamp}}@hexride.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Test\",\n    \"lastName\": \"Rider\",\n    \"phoneNumber\": \"+1{{$timestamp}}\",\n    \"userType\": \"RIDER\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "2. Register Driver",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('driverAccessToken', jsonData.data.accessToken);",
+                                    "    pm.collectionVariables.set('testDriverId', jsonData.data.userId);",
+                                    "    console.log('Driver user registered: ' + jsonData.data.userId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Driver user registration successful', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"testdriver{{$timestamp}}@hexride.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Test\",\n    \"lastName\": \"Driver\",\n    \"phoneNumber\": \"+2{{$timestamp}}\",\n    \"userType\": \"DRIVER\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "3. Create Driver Profile",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('testDriverProfileId', jsonData.data.id);",
+                                    "    console.log('Driver profile created: ' + jsonData.data.id);",
+                                    "}",
+                                    "",
+                                    "pm.test('Driver profile created', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"userId\": \"{{testDriverId}}\",\n    \"licenseNumber\": \"DL-{{$timestamp}}\",\n    \"licensePlate\": \"ABC-{{$randomInt}}\",\n    \"make\": \"Toyota\",\n    \"model\": \"Camry\",\n    \"color\": \"White\",\n    \"year\": 2023,\n    \"supportedRideTypes\": [\"STANDARD\"]\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/register",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "4. Driver Goes Online",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Driver is now online', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"isAvailable\": true,\n    \"currentLocation\": {\n        \"latitude\": 28.6139,\n        \"longitude\": 77.2090\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/drivers/{{testDriverId}}/availability",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "drivers",
+                                "{{testDriverId}}",
+                                "availability"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "5. Update Driver Location (Redis)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Location updated in Redis', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"driverId\": \"{{testDriverId}}\",\n    \"latitude\": 28.6139,\n    \"longitude\": 77.2090,\n    \"heading\": 45.0,\n    \"speed\": 0\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/locations/update",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "locations",
+                                "update"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "6. Get Fare Estimate",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('testFareId', jsonData.data.fareId);",
+                                    "    console.log('Fare ID: ' + jsonData.data.fareId);",
+                                    "    console.log('Estimated Fare: ' + jsonData.data.totalFare);",
+                                    "}",
+                                    "",
+                                    "pm.test('Fare estimated successfully', function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"pickupLocation\": {\n        \"latitude\": 28.6139,\n        \"longitude\": 77.2090\n    },\n    \"dropoffLocation\": {\n        \"latitude\": 28.5355,\n        \"longitude\": 77.2510\n    },\n    \"rideType\": \"STANDARD\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/fares/estimate",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "fares",
+                                "estimate"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "7. Request Ride (Triggers Kafka)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    pm.collectionVariables.set('testRideId', jsonData.data.id);",
+                                    "    pm.collectionVariables.set('testRideOtp', jsonData.data.otp);",
+                                    "    console.log('Ride created: ' + jsonData.data.id);",
+                                    "    console.log('OTP: ' + jsonData.data.otp);",
+                                    "    console.log('Status: ' + jsonData.data.status);",
+                                    "}",
+                                    "",
+                                    "pm.test('Ride requested', function() {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"fareId\": \"{{testFareId}}\",\n    \"riderId\": \"{{riderId}}\",\n    \"rideType\": \"STANDARD\",\n    \"pickupLocation\": {\n        \"latitude\": 28.6139,\n        \"longitude\": 77.2090\n    },\n    \"dropoffLocation\": {\n        \"latitude\": 28.5355,\n        \"longitude\": 77.2510\n    }\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "8. Check Ride Status (Wait for Matching)",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    console.log('Ride Status: ' + jsonData.data.status);",
+                                    "    console.log('Driver ID: ' + jsonData.data.driverId);",
+                                    "}",
+                                    "",
+                                    "pm.test('Ride retrieved', function() {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{testRideId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{testRideId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "9. Driver Arrives",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Driver arrived', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{testRideId}}/driver-arrived?driverId={{testDriverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{testRideId}}",
+                                "driver-arrived"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{testDriverId}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "10. Start Ride with OTP",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Ride started', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{testRideId}}/start?driverId={{testDriverId}}&otp={{testRideOtp}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{testRideId}}",
+                                "start"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{testDriverId}}"
+                                },
+                                {
+                                    "key": "otp",
+                                    "value": "{{testRideOtp}}"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "11. Complete Ride",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data) {",
+                                    "    console.log('Final Fare: ' + jsonData.data.finalFare);",
+                                    "    console.log('Status: ' + jsonData.data.status);",
+                                    "}",
+                                    "",
+                                    "pm.test('Ride completed', function() {",
+                                    "    pm.expect(pm.response.code).to.be.oneOf([200, 204]);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/rides/{{testRideId}}/complete?driverId={{testDriverId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "rides",
+                                "{{testRideId}}",
+                                "complete"
+                            ],
+                            "query": [
+                                {
+                                    "key": "driverId",
+                                    "value": "{{testDriverId}}"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
